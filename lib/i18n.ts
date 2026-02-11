@@ -26,6 +26,7 @@ export const translations = {
       thumbnailAlt: "Thumbnail",
       description:
         "Hello, I'm Gabriel Novais. I have a degree in Software Engineering and currently work as a Full Stack Developer. My focus is building systems that truly work, combining the agility of React on the frontend with the efficiency of Node.js on the backend. I love challenging myself, learning as much as I can along the way, and sharing my knowledge with others.",
+      linkedinButton: "View LinkedIn",
     },
     stack: {
       title: "My Stack",
@@ -93,6 +94,7 @@ export const translations = {
       thumbnailAlt: "Miniatura",
       description:
         "Olá, me chamo Gabriel Novais. Sou graduado em Engenharia de Software e atualmente trabalho como Desenvolvedor Full Stack. Meu foco é construir sistemas que funcionam de verdade, unindo a agilidade do React no frontend com a eficiência do Node.js no backend. Gosto de me desafiar, aprendendo o máximo que posso no caminho e repassando meu conhecimento para outras pessoas.",
+      linkedinButton: "Ver LinkedIn",
     },
     stack: {
       title: "Minha Stack",
