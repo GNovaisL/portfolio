@@ -12,8 +12,8 @@ const projectsByLanguage: Record<Language, Project[]> = {
             image: PetProject,
             stack: ["React", "TypeScript", "Node.js", "PostgreSQL"],
             metrics: [],
-            link: "#",
-            github: "#",
+            link: "",
+            github: "",
         },
         {
             id: "2",
@@ -58,8 +58,8 @@ const projectsByLanguage: Record<Language, Project[]> = {
             image: PetProject,
             stack: ["React", "TypeScript", "Node.js", "PostgreSQL"],
             metrics: [],
-            link: "#",
-            github: "#",
+            link: "",
+            github: "",
         },
         {
             id: "2",

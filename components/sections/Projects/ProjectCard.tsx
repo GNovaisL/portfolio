@@ -1,41 +1,43 @@
 "use client"
 
-import { motion } from "motion/react"
+import { motion, MotionValue, TargetAndTransition, useReducedMotion } from "motion/react"
 import Image from "next/image"
 import { Project } from "@/types/project-type"
 import { useRef } from "react"
-import { useMediaQuery } from "react-responsive"
 
 interface ProjectCardProps {
     project: Project
     index: number
     onOpenModal: (project: Project) => void
+    canHover: boolean
 }
 
-export const ProjectCard = ({ project, index, onOpenModal }: ProjectCardProps) => {
+export const ProjectCard = ({ project, index, onOpenModal, canHover }: ProjectCardProps) => {
     const cardRef = useRef<HTMLButtonElement>(null)
-    const isMobile = useMediaQuery({ query: "(max-width: 768px)" })
+    const shouldReduceMotion = useReducedMotion()
+
+    const initial = shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 60, scale: 0.95 }
+    const inView = { opacity: 1, y: 0, scale: 1 }
+    const transition = shouldReduceMotion ? { duration: 0 } : { duration: 0.6, delay: index * 0.1 }
+    const hoverAnimation = !shouldReduceMotion && canHover
+        ? { scale: 1.03, transition: { type: "spring", stiffness: 300, damping: 25 } }
+        : {}
 
     return (
         <motion.button
             type="button"
             ref={cardRef}
-            initial={{ opacity: 0, y: 60, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            initial={initial}
+            whileInView={inView}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            whileHover={!isMobile ? {
-                scale: 1.05,
-                rotateX: 5,
-                rotateY: -5,
-                transition: { type: "spring", stiffness: 300, damping: 20 }
-            } : {}}
+            transition={transition}
+            whileHover={hoverAnimation as TargetAndTransition}
             onClick={() => onOpenModal(project)}
             className="group cursor-pointer relative text-left w-full"
-            style={{ perspective: "1000px" }}
+            style={{ contentVisibility: "auto", containIntrinsicSize: "400px 480px" }}
             aria-label={`Abrir detalhes do projeto ${project.title}`}
         >
-            <div className="relative rounded-2xl overflow-hidden bg-background/80 backdrop-blur-sm border border-foreground/10 shadow-xl shadow-foreground/10 h-full flex flex-col">
+            <div className="relative rounded-2xl overflow-hidden bg-background/90 border border-foreground/10 shadow-lg shadow-foreground/10 h-full flex flex-col">
                 <div className="relative h-48 md:h-64 overflow-hidden">
                     <motion.div
                         animate={{ scale: 1 }}
@@ -48,6 +50,7 @@ export const ProjectCard = ({ project, index, onOpenModal }: ProjectCardProps) =
                             fill
                             className="object-cover"
                             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                            quality={70}
                         />
                     </motion.div>
                     <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
@@ -69,7 +72,7 @@ export const ProjectCard = ({ project, index, onOpenModal }: ProjectCardProps) =
                         {project.stack.slice(0, 3).map((tech, idx) => (
                             <motion.span
                                 key={idx}
-                                whileHover={{ scale: 1.1 }}
+                                whileHover={!shouldReduceMotion && canHover ? { scale: 1.05 } : {}}
                                 className="px-3 py-1 text-xs rounded-full bg-foreground/5 text-foreground/80 border border-foreground/10"
                             >
                                 {tech}
